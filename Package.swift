@@ -1,19 +1,23 @@
-// swift-tools-version:4.0
+//
+//  SwiftSocket.swift
+//  SwiftSocket
 import PackageDescription
 
-var targets: [PackageDescription.Target] = [
-    .target(name: "EchoServer", dependencies: ["SwiftSocket"]),
-    .target(name: "SwiftSocket", dependencies: ["YSocket"]),
-    .target(name: "YSocket",
-            dependencies: []),
-]
-
+#if os(Linux) || os(macOS) || os(iOS) || os(tvOS)
+    
 let package = Package(
     name: "swift-socket",
-    products: [
-    	.executable(name: "EchoServer", targets: ["EchoServer"]),
-    	.library(name: "SwiftSocket", targets: ["SwiftSocket"]),
-    ],
-    targets: targets
+    exclude: [
+		    	"SwiftSocket.xcodeproj", 
+	    		"SwiftSocket.xcworkspace", 
+	    		"README.md", 
+	    		"Sources/SwiftSocket/Info.plist", 
+	    		"Sources/SwiftSocket/Socket.h"],
+    targets: [Target(name: "Socket")],
 )
     
+#else
+    
+fatalError("Unsupported OS")
+    
+#endif

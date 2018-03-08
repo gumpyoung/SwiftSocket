@@ -2,8 +2,9 @@ import SwiftSocket
 
 func echoService(client: TCPClient) {
     print("Newclient from:\(client.address)[\(client.port)]")
-    var d = client.read(1024*10)
-    client.send(data: d!)
+    let d = client.read(1024*10)
+    let r = client.send(data: d!)
+    print("Send Result: \(r)")
     client.close()
     print("Closed Client:\(client.address)[\(client.port)]")
 }
@@ -16,7 +17,7 @@ func testServer() {
     switch server.listen() {
       case .success:
         while true {
-            if var client = server.accept() {
+            if let client = server.accept() {
                 echoService(client: client)
             } else {
                 print("accept error")
